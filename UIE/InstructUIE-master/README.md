@@ -62,6 +62,14 @@ python calculate_f1.py
   year={2023}
 }
 ```
+## first predict then extract method&mt5-large
+1.注意修改model_name_or_path、data_dir、instruction_file、output_dir，需要断点恢复时修改resume_from_checkpoint，首次训练时删去。bash scripts/train_mt5.sh启动训练
+
+2.step1-step2:数据集使用dataset_new，instruction_file使用instruction_config_clw.json
+
+3.step3:在1、2步上继续训练，model_name_or_path使用1-2步训练最后保存的断点路径，instruction_file使用instruction_config_step3_uie.json，数据集使用dataset
+
+4.评估使用bash scripts/eval_mt5.sh，注意修改model_name_or_path、data_dir、instruction_file、output_dir
 
 
 
