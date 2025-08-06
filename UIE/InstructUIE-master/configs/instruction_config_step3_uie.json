@@ -1,0 +1,5 @@
+{
+  "NER": [
+    {"instruction_type": "zero-shot","instruction": "Please list all attributes of the word {target_word} in the text that fit the category. Output format is \"type1: word1; type2: word2\".\n"}
+  ]
+}
