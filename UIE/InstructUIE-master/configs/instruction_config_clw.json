@@ -1,0 +1,39 @@
+{
+  "RE": [
+    {"instruction_type": "zero-shot", "instruction": "Given a phrase that describes the relationship between two words, extract the words and the lexical relationship between them. The output format should be \"relation1: word1, word2; relation2: word3, word4\". \n"},
+    {"instruction_type": "zero-shot", "instruction": "Find the phrases in the following sentences that have a given relationship. The output format is \"relation1: word1, word2; relation2: word3, word4\". \n"},
+    {"instruction_type": "zero-shot", "instruction": "Given a sentence, please extract the subject and object containing a certain relation in the sentence according to the following relation types, in the format of \"relation1: word1, word2; relation2: word3, word4\". \n"}
+  ],
+  "RC": [
+    {"instruction_type": "zero-shot", "instruction": "In above text, what is the relationship between {0} and {1}? \n"},
+    {"instruction_type": "zero-shot", "instruction": "Describe the relationship between {0} and {1} in above sentence. \n"},
+    {"instruction_type": "zero-shot", "instruction": "Find the relationship between {0} and {1} in text from following options? \n"}
+  ],
+ "NER": [
+    {"instruction_type": "zero-shot","instruction": "Please extract the most representative culturally loaded expression from the text. It should have deep cultural, historical, or symbolic meaning. Output format is \"文化负载词: word\".\n"},
+    {"instruction_type": "zero-shot","instruction": "Find the single most important culturally significant expression in the sentence. Output format is \"文化负载词: word\".\n"},
+    {"instruction_type": "zero-shot","instruction": "Extract the core culturally loaded term from the text that best reflects cultural heritage, symbolism, or idiomatic meaning. Output format is \"文化负载词: word\".\n"}
+],
+  "EE": [
+    {"instruction_type": "zero-shot", "instruction": "Locate the role in the text that participated in the event based on the event type and return it in the event list. \n"},
+    {"instruction_type": "zero-shot", "instruction": "Extract the event information in the text and return them in the event list. \n"}
+  ],
+  "ES": [
+    {"instruction_type": "zero-shot", "instruction": "Please list all entity words in the text that fit the category. Output format is \"word1, word2\". \n"}
+  ],
+  "ET": [
+    {"instruction_type": "zero-shot", "instruction": "Given options, please tell me the categories of all the listed entity words.Output format is \"type1: word1; type2: word2\". \n"}
+  ],
+  "EP": [
+    {"instruction_type": "zero-shot", "instruction": "Please list all entity pairs containing a certain relationship in the given options.Output format is \"word1, word2; word3, word4\". \n"}
+  ],
+  "EPR": [
+    {"instruction_type": "zero-shot", "instruction": "Given options, please tell me the relationships of all the listed entity pairs.Output format is \"relation1: word1, word2; relation2: word3, word4\". \n"}  
+  ],
+  "EEA": [
+    {"instruction_type": "zero-shot", "instruction": "Given event type and trigger, please tell me the arguments of all the listed option. Output format is \"name1: role1; name2: role2\". \n"}
+  ],
+  "EET": [
+    {"instruction_type": "zero-shot", "instruction": "Please tell me event type and its trigger word from given type options. Output format is \"type: trigger\". "}
+  ]
+}
