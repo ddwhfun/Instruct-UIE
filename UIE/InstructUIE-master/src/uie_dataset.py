@@ -320,7 +320,7 @@ class UIEInstructions(datasets.GeneratorBasedBuilder):
                 if not target_word and len(instance['entities']) > 0:
                     target_word = instance['entities'][0]['name']  # fallback
 
-               instruction = instruction_template.format(target_word=target_word)
+                instruction = instruction_template.format(target_word=target_word)
             else:
                 instruction = instruction_template + "Option: " + labels_str + " \n" + "Text: {0}" + " \nAnswer:"
 
