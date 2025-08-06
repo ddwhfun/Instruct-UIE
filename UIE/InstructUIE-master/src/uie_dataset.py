@@ -265,45 +265,6 @@ class UIEInstructions(datasets.GeneratorBasedBuilder):
 
         return instances
     
-#     def load_NER_dataset(self, dataset_path, labels_path, dataset_name, sampling_strategy, max_num_instances, subset):
-#         instances, labels = self._load_dataset(dataset_path, labels_path)
-
-#         sample_template = {"Task": "NER", "Dataset": dataset_name, "Samples": [], "subset": subset}
-
-#         labels_str = ', '.join(labels)
-#         instances = self._sampling_dataset(instances, sampling_strategy, max_num_instances)
-
-#         for idx, instance in enumerate(instances):
-#             example = sample_template.copy()
-#             instruction = self._get_instruction('NER')
-#             instruction += "Option: " + labels_str + " \n" + "Text: " + "{0}" + " \n" + "Answer:"
-            
-#             # 构建包含位置信息的实体列表
-#             entities = []
-#             for entity in instance['entities']:
-#                 if entity['type'] == 'NA' or entity['type'] == '':
-#                     continue
-#                 entities.append({
-#                     "type": entity['type'],
-#                     "pos": entity['pos']
-#                 })
-
-#             # 将实体列表转换为JSON字符串
-#             if len(entities) > 0:
-#                 label = json.dumps({"entities": entities}, ensure_ascii=False)
-#             else:
-#                 label = json.dumps({"entities": []}, ensure_ascii=False)
-
-#             example["Instance"] = {
-#                 "id": str(idx),
-#                 "sentence": instance['sentence'],
-#                 "label": label,
-#                 "ground_truth": label,
-#                 "instruction": instruction
-#             }
-
-#             yield example
-
 
     def load_NER_dataset(self, dataset_path, labels_path, dataset_name, sampling_strategy, max_num_instances, subset):
         instances, labels = self._load_dataset(dataset_path, labels_path)
@@ -313,26 +274,65 @@ class UIEInstructions(datasets.GeneratorBasedBuilder):
         labels_str = ', '.join(labels)
         instances = self._sampling_dataset(instances, sampling_strategy, max_num_instances)
 
+        # for idx, instance in enumerate(instances):
+        #     example = sample_template.copy()
+        #     instruction = self._get_instruction('NER')
+        #     instruction += "Option: " + labels_str + " \n" + "Text: " + "{0}" + " \n" + "Answer:"
+            
+        #     kv_pairs = []
+
+        #     for entity in instance['entities']:
+        #         if entity['type'] == 'NA' or entity['type'] == '':
+        #             continue
+        #         kv_pair = [entity['name'], entity['type']]
+                
+        #         kv_pairs.append(kv_pair)
+
+        #     if len(kv_pairs) > 0:
+        #         label = " " + "; ".join(["{}: {}".format(v, k) for (k, v) in kv_pairs])
+                
+        #     else:
+        #         label = " None"
+
+        #     example["Instance"] = {
+        #         "id": str(idx),
+        #         "sentence": instance['sentence'],
+        #         "label": label,
+        #         "ground_truth": label,
+        #         "instruction": instruction
+        #     }
+
+        #     yield example
+        
+        
+        #动态插入word
         for idx, instance in enumerate(instances):
             example = sample_template.copy()
-            instruction = self._get_instruction('NER')
-            instruction += "Option: " + labels_str + " \n" + "Text: " + "{0}" + " \n" + "Answer:"
-            
-            kv_pairs = []
+            instruction_template = self._get_instruction('NER') 
+            if '{target_word}' in instruction_template:
 
+               # 从实体中提取主实体
+                target_word = None
+                for ent in instance['entities']:
+                    if ent['type'] in ['字', '词', '短语']: 
+                        target_word = ent['name']
+                        break
+                if not target_word and len(instance['entities']) > 0:
+                    target_word = instance['entities'][0]['name']  # fallback
+
+               instruction = instruction_template.format(target_word=target_word)
+            else:
+                instruction = instruction_template + "Option: " + labels_str + " \n" + "Text: {0}" + " \nAnswer:"
+
+            kv_pairs = []
             for entity in instance['entities']:
                 if entity['type'] == 'NA' or entity['type'] == '':
                     continue
                 kv_pair = [entity['name'], entity['type']]
-                
-                
                 kv_pairs.append(kv_pair)
 
             if len(kv_pairs) > 0:
                 label = " " + "; ".join(["{}: {}".format(v, k) for (k, v) in kv_pairs])
-                
-                
-         
             else:
                 label = " None"
 
@@ -344,7 +344,7 @@ class UIEInstructions(datasets.GeneratorBasedBuilder):
                 "instruction": instruction
             }
 
-            yield example
+            yield example 
 
 
 
